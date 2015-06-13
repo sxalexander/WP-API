@@ -110,6 +110,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$posts_query = new WP_Query();
 		$query_result = $posts_query->query( $query_args );
 
+		/**
+		 * Alter the query results of a request.
+		 *
+		 * This allows you to set change or filter the results returned via a query.
+		 *
+		 * @param array $query_result array of query results.
+		 * @param WP_Query $posts_query Full WP_Query object.
+		 */	
+		$query_result = apply_filters( 'rest_post_query_result', $query_result, $posts_query);
+		
 		$posts = array();
 		foreach ( $query_result as $post ) {
 			if ( ! $this->check_read_permission( $post ) ) {
